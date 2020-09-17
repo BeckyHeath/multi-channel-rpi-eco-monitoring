@@ -1,0 +1,16 @@
+*.mp3
+*.aac
+*.wav
+*.jpg
+*.log
+*.save
+*.json
+*_log.txt
+./tmp*
+test.*
+*.pyc
+
+continuous_monitoring_data/
+tmp_data/
+
+fs_expanded
