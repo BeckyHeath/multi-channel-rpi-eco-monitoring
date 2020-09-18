@@ -35,7 +35,7 @@ while true; do
 done
 
 # Change to correct folder
-cd /home/pi/multi-channel-eco-monitoring
+cd /home/pi/multi-channel-rpi-eco-monitoring
 
 # Update time from internet
 sudo bash ./bash_update_time.sh
