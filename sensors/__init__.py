@@ -5,6 +5,7 @@ from sensors.TimelapseCamera import TimelapseCamera
 from sensors.USBSoundcardMic import USBSoundcardMic
 from sensors.UnixDevice import UnixDevice
 from sensors.Respeaker6Mic import Respeaker6Mic
+from sensors.Respeaker4Mic import Respeaker4Mic
 
 
 def set_option(var, config, opts):
