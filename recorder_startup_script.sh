@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf '############################################\nStart of ecosystem monitoring startup script\n############################################\n'
+printf '#############################################\nStart of ecosystem monitoring startup script\n############################################\n'
 
 # just as a back up schedule a reboot for 24 hours (in case something goes wrong before scheduling the 2am reboot)
 (sudo shutdown -r +1440) &
