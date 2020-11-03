@@ -6,11 +6,11 @@ unfinished code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitori
 
 Pending: The setup will either be done manually from a SD card image 
 
-. If using the image, follow the "Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
+. If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the above process. The below steps assume you have downloaded and installed the [Raspbian Stretch Lite image](https://www.raspberrypi.org/downloads/raspbian/).
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the above process. The below steps assume you have downloaded and installed [Raspbian Buster](https://www.raspberrypi.org/downloads/raspbian/).
 
 You will need the Pi to be connected to the internet for the below process.
 
@@ -39,7 +39,13 @@ You will need the Pi to be connected to the internet for the below process.
 ### RPI Configuration
 
 These steps are adapted from the [Single Channel Eco Monitoring Setup](https://github.com/sarabsethi/rpi-eco-monitoring)
-Pending : add in link to pre-prepared SD card
+
+Whether manual setup completed or 
+
+Pending: pre-prepared image was cloned to SD card 
+
+The following steps are necessary to finalise installation
+
 
 * Boot the Raspberry Pi with our prepared SD card inserted. Let the startup script run until it exits with the message "Config file not found!". If you would like to change an existing configuration, press ``Ctrl+C`` when you see "Start of ecosystem monitoring startup script"
 * Type ``cd ~/multi-channel-rpi-eco-monitoring``
@@ -52,7 +58,7 @@ Pending : add in link to pre-prepared SD card
 
 ### Importing New Sensors 
 
-Importing addional sensors is possible by following protocol explained [here] (https://github.com/sarabsethi/rpi-eco-monitoring)
+Importing addional sensors is possible by following protocol explained [here](https://github.com/sarabsethi/rpi-eco-monitoring)
 
 
 ## Authors
