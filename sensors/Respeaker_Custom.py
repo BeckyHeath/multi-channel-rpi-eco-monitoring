@@ -50,7 +50,7 @@ class Respeaker_Custom(SensorBase):
                 {'name': 'capture_delay',
                  'type': int,
                  'default': 0,
-                 'prompt': 'How long should the system wait between audio samples?'}
+                 'prompt': 'How long should the system wait between audio samples?'},
                 {'name': 'microphone_number',
                  'type': int,
                  'default': 1,
