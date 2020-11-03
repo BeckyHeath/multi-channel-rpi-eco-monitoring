@@ -109,7 +109,6 @@ class Respeaker_Custom(SensorBase):
         wfile = self.uncomp_file
 
         if self.compress_data == True:
-
             # Compress the raw audio file to mp3 format
             ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
 
@@ -117,7 +116,6 @@ class Respeaker_Custom(SensorBase):
             cmd = ('ffmpeg -I {} -codec:a libmp3lame -q:a 0 {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
             logging.info('\n{} - Finished compression\n'.format(self.current_file))
-
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(self.current_file))
