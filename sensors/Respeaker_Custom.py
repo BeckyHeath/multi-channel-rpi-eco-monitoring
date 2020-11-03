@@ -51,6 +51,10 @@ class Respeaker_Custom(SensorBase):
                  'type': int,
                  'default': 0,
                  'prompt': 'How long should the system wait between audio samples?'}
+                {'name': 'microphone_number',
+                 'type': int,
+                 'default': 1,
+                 'prompt': 'How many microphones would you like to use?'}
                 ]
 
     def setup(self):
@@ -84,8 +88,8 @@ class Respeaker_Custom(SensorBase):
         wfile = os.path.join(self.working_dir, self.working_file)
         ofile = os.path.join(self.working_dir, self.current_file)
         try:
-            cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
-            subprocess.call(cmd.format(self.record_length, wfile), shell=True)
+            cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c {} --duration {} {}'
+            subprocess.call(cmd.format(self.microphone_number, self.record_length, wfile), shell=True)
             self.uncomp_file = ofile + '.wav'
             os.rename(wfile, self.uncomp_file)
         except Exception:
@@ -105,15 +109,14 @@ class Respeaker_Custom(SensorBase):
         wfile = self.uncomp_file
 
         if self.compress_data == True:
-            # This is Hashed out as the 6 Mic Configuraion should never have compression
 
             # Compress the raw audio file to mp3 format
-            #ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
+            ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
 
-            #logging.info('\n{} - Starting compression\n'.format(self.current_file))
-            #cmd = ('ffmpeg -I {} -codec:a libmp3lame -q:a 0 {} >/dev/null 2>&1') 
-            #subprocess.call(cmd.format(wfile, ofile), shell=True)
-            #logging.info('\n{} - Finished compression\n'.format(self.current_file))
+            logging.info('\n{} - Starting compression\n'.format(self.current_file))
+            cmd = ('ffmpeg -I {} -codec:a libmp3lame -q:a 0 {} >/dev/null 2>&1') 
+            subprocess.call(cmd.format(wfile, ofile), shell=True)
+            logging.info('\n{} - Finished compression\n'.format(self.current_file))
 
         else:
             # Don't compress, store as wav
