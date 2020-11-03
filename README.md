@@ -6,7 +6,7 @@ unfinished code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitori
 
 Pending: The setup will either be done manually from a SD card image 
 
-or manually as follows. Whether following Manual or Image set up, the pi needs to configurated, follow instructions below for full procedure
+. If using the image, follow the "Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
@@ -25,7 +25,7 @@ You will need the Pi to be connected to the internet for the below process.
 * Install the sound card ``sudo ./install.sh``
 * Reboot the Pi ``sudo reboot``
 
-#### Set up Multi-Channel Eco Monitoring
+##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
@@ -36,9 +36,7 @@ You will need the Pi to be connected to the internet for the below process.
 
 * Then follow the instructions below to complete the setup
 
-**N.B.** This clones the long-term support branch, which will have software that has been extensively field-tested, whilst the ``dev`` branch will have the latest development code which may inherently be more unstable. For long remote deployments we recommend only using the LTS branch, and this is the branch used in our pre-prepared SD card images. If you plan on implementing a new sensor, fork the codebase and make your changes, but be sure to submit a pull request back to this repo when you're done!
-
-### Manual and Image Set Up
+### RPI Configuration
 
 These steps are adapted from the [Single Channel Eco Monitoring Setup](https://github.com/sarabsethi/rpi-eco-monitoring)
 Pending : add in link to pre-prepared SD card
