@@ -6,6 +6,7 @@ from sensors.USBSoundcardMic import USBSoundcardMic
 from sensors.UnixDevice import UnixDevice
 from sensors.Respeaker6Mic import Respeaker6Mic
 from sensors.Respeaker4Mic import Respeaker4Mic
+from sensors.Respeaker_Custom import Respeaker_Custom
 
 
 def set_option(var, config, opts):
