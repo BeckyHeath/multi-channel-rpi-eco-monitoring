@@ -107,7 +107,7 @@ class Respeaker4Mic(SensorBase):
         if self.compress_data == True:
             # This is Commented out as Compression only valid for 1 or 2 channel recordings
             
-            Compress the raw audio file to mp3 format
+            #Compress the raw audio file to mp3 format
             ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
 
             logging.info('\n{} - Starting compression\n'.format(self.current_file))
