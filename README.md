@@ -29,7 +29,7 @@ You will need the Pi to be connected to the internet for the below process.
 
 * Log in and open a terminal
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
-* Make sure all the scripts in the repository are executable by all users by typing  ``sudo chmod a+x ~/multi-channel-rpi-eco-monitoring/*``. 
+* Make sure all the scripts in the repository are executable by all users by typing  ``chmod +x ~/multi-channel-rpi-eco-monitoring/*``. 
 * Configure the Pi to run ``recorder_startup_script.sh`` on boot by adding ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last line of the ``etc/profile`` file. You can do this manually or by running ``sudo nano /etc/profile``
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: option _System Options_ -> _Boot / Auto Login_ -> _Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
