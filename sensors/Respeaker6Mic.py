@@ -46,7 +46,7 @@ class Respeaker6Mic(SensorBase):
                 {'name': 'compress_data',
                  'type': bool,
                  'default': False,
-                 'prompt': 'Should the audio data be compressed from WAV to VBR mp3? NOTE: only for 1 or 2 channel Audio!'},
+                 'prompt': 'Should the audio data be compressed from WAV to FLAC Lossless Compression?'},
                 {'name': 'capture_delay',
                  'type': int,
                  'default': 0,
@@ -97,7 +97,7 @@ class Respeaker6Mic(SensorBase):
 
     def postprocess(self):
         """
-        Method to optionally compress raw audio data to mp3 format and stage data to
+        Method to optionally compress raw audio data to FLAC and stage data to
         upload folder
         """
 
@@ -108,10 +108,10 @@ class Respeaker6Mic(SensorBase):
             # This is Hashed out as the 6 Mic Configuraion should never have compression
             
             # Compress the raw audio file to mp3 format
-            ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
+            ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
 
             logging.info('\n{} - Starting compression\n'.format(self.current_file))
-            cmd = ('ffmpeg -I {} -codec:a libmp3lame -q:a 0 {} >/dev/null 2>&1') 
+            cmd = ('ffmpeg -I {} -:a flac {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
             logging.info('\n{} - Finished compression\n'.format(self.current_file))
         else:
