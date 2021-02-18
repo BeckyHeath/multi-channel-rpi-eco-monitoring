@@ -105,13 +105,11 @@ class Respeaker6Mic(SensorBase):
         wfile = self.uncomp_file
 
         if self.compress_data == True:
-            # This is Hashed out as the 6 Mic Configuraion should never have compression
-            
-            # Compress the raw audio file to mp3 format
+            # Audio is compressed using a FLAC Encoding
             ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
 
             logging.info('\n{} - Starting compression\n'.format(self.current_file))
-            cmd = ('ffmpeg -I {} -:a flac {} >/dev/null 2>&1') 
+            cmd = ('ffmpeg -i {} -:a flac {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
             logging.info('\n{} - Finished compression\n'.format(self.current_file))
         else:
