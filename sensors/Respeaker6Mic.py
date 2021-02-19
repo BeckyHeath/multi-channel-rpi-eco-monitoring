@@ -109,7 +109,7 @@ class Respeaker6Mic(SensorBase):
             ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
 
             logging.info('\n{} - Starting compression\n'.format(self.current_file))
-            cmd = ('ffmpeg -i {} -:a flac {}') 
+            cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
             logging.info('\n{} - Finished compression\n'.format(self.current_file))
         else:
