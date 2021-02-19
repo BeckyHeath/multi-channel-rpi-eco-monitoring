@@ -22,15 +22,14 @@ You will need the Pi to be connected to the internet for the below process.
 * Install git: ``sudo apt-get install git``
 * Clone Seeed voice card repository into home directory of the Raspberry Pi ``git clone https://github.com/respeaker/seeed-voicecard.git``
 * Switch to Seeed repository ``cd seeed-voicecard``
-* Install the sound card ``sudo ./install.sh``
+* Install the sound card ``sudo ./install.sh``, you may need to use ``sudo ./install.sh --compat-kernel`` if you run into trouble installing on an incompatible kernel
 * Reboot the Pi ``sudo reboot``
 
 ##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
-* Make sure all the scripts in the repository are executable by all users by adding  ``chmod +x ~/multi-channel-rpi-eco-monitoring/*`` to the last line of the ``/etc/profile`` file. 
-* Then, configure the Pi to run ``recorder_startup_script.sh`` on boot by adding ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last line of the ``etc/profile`` file. You can do this manually or by running ``sudo nano /etc/profile``
+* Make sure all the scripts in the repository are executable by all users by adding  ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and configure the Pi to run ``recorder_startup_script.sh`` on boot by adding ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``etc/profile``. You can do this manually or by running ``sudo nano /etc/profile``
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: option _System Options_ -> _Boot / Auto Login_ -> _Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
 
