@@ -114,6 +114,9 @@ class Respeaker6Mic(SensorBase):
 =======
             cmd = ('ffmpeg -i {} -:a flac {}') 
 >>>>>>> 47d558ed3e268245383c8de3802fbbf9fe80365a
+=======
+            cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
+>>>>>>> d10c9827cb677ff83462390037615e059435f915
             subprocess.call(cmd.format(wfile, ofile), shell=True)
             logging.info('\n{} - Finished compression\n'.format(self.current_file))
         else:
