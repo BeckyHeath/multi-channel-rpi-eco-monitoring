@@ -4,34 +4,39 @@ unfinished code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitori
 
 ## Setup 
 
-Pending: The setup will either be done manually from a SD card image 
+Pre setup image: 
 
-. If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
+If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the above process. The below steps assume you have downloaded and installed [Raspbian Buster](https://www.raspberrypi.org/downloads/raspbian/).
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. We've found .[this version].(https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) to work fine. (Rasbian Buster, last modified: 13th Feb 2020).
 
-You will need the Pi to be connected to the internet for the below process.
+#### Pi OS setup: 
+
+* Download and extract the .[recommended OS].(https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
+* Flash the OS to an SD card, you can use.[Balana Etcher].(https://www.balena.io/etcher/)
+* Instert SD card into the pi and power on 
+* Set Date and Time 
+* Keep pi login as "raspberry"
+* ## Do not install updates! ## Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
 
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
-* Login when prompted with user 'pi' and password 'raspberry'
 * Open Terminal
-* Update the system by running ``sudo apt-get update`` and ``sudo apt-get upgrade``
 * Install git: ``sudo apt-get install git``
 * Clone Seeed voice card repository into home directory of the Raspberry Pi ``git clone https://github.com/respeaker/seeed-voicecard.git``
 * Switch to Seeed repository ``cd seeed-voicecard``
-* Install the sound card ``sudo ./install.sh``, you may need to use ``sudo ./install.sh --compat-kernel`` if you run into trouble installing on an incompatible kernel
+* Install the sound card ``sudo ./install.sh`` (you may need to use ``sudo ./install.sh --compat-kernel`` if you run into trouble installing on an incompatible kernel)
 * Reboot the Pi ``sudo reboot``
 
 ##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
-* Make sure all the scripts in the repository are executable by all users by adding  ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and configure the Pi to run ``recorder_startup_script.sh`` on boot by adding ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``etc/profile``. You can do this manually or by running ``sudo nano /etc/profile``
+* Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup, by adding the following: ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``~/../../etc/profile``. You can do this manually or by running ``sudo nano ../../etc/profile`` from the root directory
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
-* Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: option _System Options_ -> _Boot / Auto Login_ -> _Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
+* Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: option _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
 
 * Then follow the instructions below to complete the setup
 
