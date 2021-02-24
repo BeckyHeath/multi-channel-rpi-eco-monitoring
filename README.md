@@ -19,7 +19,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Instert SD card into the pi and power on 
 * Set Date and Time 
 * Keep pi login as "raspberry"
-* ## Do not install updates! ## Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
+* ##Do not install updates!## Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
 
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
