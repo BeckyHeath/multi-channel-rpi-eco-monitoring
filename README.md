@@ -19,7 +19,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Instert SD card into the pi and power on 
 * Set Date and Time 
 * Keep pi login as "raspberry"
-* ##Do not install updates!## Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
+* **Do not install updates!** Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
 
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
@@ -36,17 +36,13 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
 * Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup, by adding the following: ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``~/../../etc/profile``. You can do this manually or by running ``sudo nano ../../etc/profile`` from the root directory
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
-* Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: option _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
+* Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
 
 * Then follow the instructions below to complete the setup
 
 ### RPI Configuration
 
 These steps are adapted from the [Single Channel Eco Monitoring Setup](https://github.com/sarabsethi/rpi-eco-monitoring)
-
-Whether manual setup completed or 
-
-Pending: pre-prepared image was cloned to SD card 
 
 The following steps are necessary to finalise installation
 
