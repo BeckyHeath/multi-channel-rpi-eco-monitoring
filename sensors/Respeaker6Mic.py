@@ -80,7 +80,7 @@ class Respeaker6Mic(SensorBase):
         self.current_file = '{}_dur={}secs'.format(start_time, self.record_length)
 
         # Record for a specific duration
-        logging.info('\n{} - Started recording\n'.format(self.current_file))
+        logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
         wfile = os.path.join(self.working_dir, self.working_file)
         ofile = os.path.join(self.working_dir, self.current_file)
         try:
@@ -93,7 +93,8 @@ class Respeaker6Mic(SensorBase):
             open(ofile + '_ERROR_audio-record-failed', 'a').close()
             time.sleep(1)
 
-        logging.info('\n{} - Finished recording\n'.format(self.current_file))
+        end_time = time.strftime('%H-%M-%S')
+        logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
 
     def postprocess(self):
         """
@@ -107,13 +108,15 @@ class Respeaker6Mic(SensorBase):
         if self.compress_data == True:
             # Audio is compressed using a FLAC Encoding
             ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
-
-            logging.info('\n{} - Starting compression\n'.format(self.current_file))
+            time_now = time.strftime('%H-%M-%S')
+            logging.info('\n{} - Starting compression at {}\n'.format(self.current_file, time_now))
 
             cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
-            logging.info('\n{} - Finished compression\n'.format(self.current_file))
+
+            time_now = time.strftime('%H-%M-%S')
+            logging.info('\n{} - Finished compression at {}\n'.format(self.current_file, time_now))
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(self.current_file))
