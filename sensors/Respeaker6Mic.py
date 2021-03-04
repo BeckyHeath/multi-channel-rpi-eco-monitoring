@@ -111,8 +111,7 @@ class Respeaker6Mic(SensorBase):
             time_now = time.strftime('%H-%M-%S')
             logging.info('\n{} - Starting compression at {}\n'.format(self.current_file, time_now))
 
-            cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
-
+            cmd = ('avconv -loglevel panic -i {} -af aformat=s32:16000 {} >/dev/null 2>&1')
             subprocess.call(cmd.format(wfile, ofile), shell=True)
 
             time_now = time.strftime('%H-%M-%S')
