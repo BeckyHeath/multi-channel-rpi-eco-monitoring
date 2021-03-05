@@ -10,12 +10,12 @@ If using the image, clone the image to and SD card then skip ahead to the "RPI C
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. We've found .[this version].(https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) to work fine. (Rasbian Buster, last modified: 13th Feb 2020).
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. We've found [this version](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) to work fine. (Rasbian Buster, last modified: 13th Feb 2020).
 
 #### Pi OS setup: 
 
-* Download and extract the .[recommended OS].(https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
-* Flash the OS to an SD card, you can use.[Balana Etcher].(https://www.balena.io/etcher/)
+* Download and extract the [recommended OS](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
+* Flash the OS to an SD card, you can use [Balana Etcher](https://www.balena.io/etcher/)
 * Instert SD card into the pi and power on 
 * Set Date and Time 
 * Keep pi login as "raspberry"
