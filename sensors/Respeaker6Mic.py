@@ -109,14 +109,14 @@ class Respeaker6Mic(SensorBase):
             # Audio is compressed using a FLAC Encoding
             ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
             time_now = time.strftime('%H-%M-%S')
-            logging.info('\n{} - Starting compression at {}\n'.format(self.current_file, time_now))
+            logging.info('\n Starting compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
             
             # Removed:  >/dev/null 2>&1
             cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(wfile, ofile), shell=True)
 
             time_now = time.strftime('%H-%M-%S')
-            logging.info('\n{} - Finished compression at {}\n'.format(self.current_file, time_now))
+            logging.info('\n Finished compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(self.current_file))
