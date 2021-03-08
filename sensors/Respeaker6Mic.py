@@ -62,7 +62,7 @@ class Respeaker6Mic(SensorBase):
         except:
             raise EnvironmentError
 
-    def capture_data(self, working_dir, upload_dir):
+    def capture_data(self, working_dir, upload_dir, pre_upload_dir):
         """
         Method to capture raw audio data from the USB Soundcard Mic
 
@@ -74,6 +74,7 @@ class Respeaker6Mic(SensorBase):
         # populate the working and upload directories
         self.working_dir = working_dir
         self.upload_dir = upload_dir
+        self.pre_upload_dir = pre_upload_dir
 
         # Name files by start time and duration
         start_time = time.strftime('%H-%M-%S')
@@ -82,7 +83,7 @@ class Respeaker6Mic(SensorBase):
         # Record for a specific duration
         logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
         wfile = os.path.join(self.working_dir, self.working_file)
-        ofile = os.path.join(self.working_dir, self.current_file)
+        ofile = os.path.join(self.pre_upload_dir, self.current_file)
         try:
             cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
             subprocess.call(cmd.format(self.record_length, wfile), shell=True)
@@ -96,29 +97,30 @@ class Respeaker6Mic(SensorBase):
         end_time = time.strftime('%H-%M-%S')
         logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
 
-    def postprocess(self):
+    def postprocess(self, wfile, upload_dir):
         """
         Method to optionally compress raw audio data to FLAC and stage data to
         upload folder
         """
 
-        # current working file
-        wfile = self.uncomp_file
+        s_wfile = os.path.join('/home/pi/pre_upload_dir', start_date, wfile)
 
         if self.compress_data == True:
-            # Audio is compressed using a FLAC Encoding
-            ofile = os.path.join(self.upload_dir, self.current_file) + '.flac'
+
+            # Move File to Pre-Upload Directory
+            ofile = os.path.join(self.upload_dir, wfile) + '.flac'
             time_now = time.strftime('%H-%M-%S')
             logging.info('\n Starting compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
-            
+
+            # Audio is compressed using a FLAC Encoding            
             # Removed:  >/dev/null 2>&1
             cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
-            subprocess.call(cmd.format(wfile, ofile), shell=True)
+            subprocess.call(cmd.format(s_wfile, ofile), shell=True)
 
             time_now = time.strftime('%H-%M-%S')
             logging.info('\n Finished compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
         else:
             # Don't compress, store as wav
-            logging.info('\n{} - No postprocessing of audio data\n'.format(self.current_file))
-            ofile = os.path.join(self.upload_dir, self.current_file) + '.wav'
+            logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
+            ofile = os.path.join(self.upload_dir, wfile) + '.wav'
             os.rename(wfile, ofile)

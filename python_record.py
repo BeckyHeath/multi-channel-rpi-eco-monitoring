@@ -85,6 +85,7 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
     start_date = time.strftime('%Y-%m-%d')
     session_working_dir = os.path.join(working_dir, start_date)
     session_upload_dir = os.path.join(upload_dir, start_date)
+    session_pre_upload_dir = os.path.join('/home/pi/pre_upload_dir', start_date)
 
     try:
         if not os.path.exists(session_working_dir):
@@ -99,20 +100,46 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
             os.makedirs(session_upload_dir)
     except OSError:
         logging.critical('Could not create upload directory for '
-                         'recording: {}'.format(session_working_dir))
+                         'recording: {}'.format(session_upload_dir))
+        sys.exit()
+
+    # Create the Pre-Upload Directory (For Storing all Finished Recordings)
+    try:
+        if not os.path.exists(session_pre_upload_dir):
+            os.makedirs(session_pre_upload_dir)
+    except OSError:
+        logging.critical('Could not create upload directory for '
+                         'recording: {}'.format(session_pre_upload_dir))
         sys.exit()
 
     # Capture data from the sensor
     logging.info('Capturing data from sensor')
-    sensor.capture_data(working_dir=session_working_dir, upload_dir=session_upload_dir)
-
-    # Postprocess the raw data in a separate thread
-    postprocess_t = threading.Thread(target=sensor.postprocess)
-    postprocess_t.start()
+    sensor.capture_data(working_dir=session_working_dir, upload_dir=session_upload_dir, pre_upload_dir=session_pre_upload_dir)
 
     # Let the sensor sleep
     if sleep:
         sensor.sleep()
+
+
+def run_postprocess(sensor, upload_dir):
+    """
+    Function to handle optional postprocessing seperately to recording 
+
+    Args: 
+        sensor: A sensor instance
+        upload_dir: The upload directory root to put compressed files in 
+    """
+
+    # Initialise Session Directories
+    pre_upload_dir = '/home/pi/pre_upload_dir'
+    start_date = time.strftime('%Y-%m-%d')
+    session_pre_upload_dir = os.path.join('/home/pi/pre_upload_dir', start_date)
+    
+    for i in os.listdir(session_pre_upload_dir):
+        wfile = i
+        sensor.postprocess(wfile, session_pre_upload_dir)
+
+
 
 
 def exit_handler(signal, frame):
@@ -216,6 +243,25 @@ def continuous_recording(sensor, working_dir, upload_dir, die):
         record_sensor(sensor, working_dir, upload_dir, sleep=True)
 
 
+def continuous_postprocess(sensor, working_dir, upload_dir, die):
+    """
+    Runs a loop over the sensor sampling process
+    Args:
+        sensor: A instance of one of the sensor classes
+        working_dir: Path to the working directory for recording
+        upload_dir: Path to the final directory used to upload processed files
+        die: A threading event to terminate the ftp server sync
+    """
+
+    # Start recording
+    while not die.is_set():
+
+        run_postprocess(sensor, working_dir, upload_dir, sleep=True)
+
+
+
+
+
 def record(config_file, logfile_name, log_dir='logs'):
 
     """
@@ -299,7 +345,7 @@ def record(config_file, logfile_name, log_dir='logs'):
     
     # Check for / create a directory for pre-compression files
     # output from this raspberry pi.
-    pre_upload_dir = 'home/pi/pre_upload_dir'
+    pre_upload_dir = '/home/pi/pre_upload_dir'
     upload_dir = os.path.join(pre_upload_dir)
     upload_dir_pi = os.path.join(pre_upload_dir, 'live_data', cpu_serial)
     if os.path.exists(upload_dir_pi) and os.path.isdir(upload_dir_pi):
@@ -358,6 +404,13 @@ def record(config_file, logfile_name, log_dir='logs'):
     record_thread = threading.Thread(target=continuous_recording, args=(sensor, working_dir,
                                                                     upload_dir_pi, die))
 
+    
+    # Postprocess the raw data in a separate thread
+    postprocess_thread = threading.Thread(target=continuous_postprocess, args=(sensor, working_dir,
+                                                                    upload_dir_pi, die)))
+
+
+
     # Initialise background thread to do remote sync of the root upload directory
     # Failure here does not preclude data capture and might be temporary so log
     # errors but don't exit.
@@ -365,6 +418,7 @@ def record(config_file, logfile_name, log_dir='logs'):
         # start the recorder
         logging.info('Starting continuous recording at {}'.format(datetime.now()))
         record_thread.start()
+        postprocess_thread.start()
         
         if offline_mode:
             logging.info('Running in offline mode - no FTP synchronisation')
