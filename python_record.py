@@ -296,6 +296,21 @@ def record(config_file, logfile_name, log_dir='logs'):
         except OSError:
             logging.critical('Could not create {} as working directory'.format(working_dir))
             sys.exit()
+    
+    # Check for / create a directory for pre-compression files
+    # output from this raspberry pi.
+    pre_upload_dir = 'home/pi/pre_upload_dir'
+    upload_dir = os.path.join(pre_upload_dir)
+    upload_dir_pi = os.path.join(pre_upload_dir, 'live_data', cpu_serial)
+    if os.path.exists(upload_dir_pi) and os.path.isdir(upload_dir_pi):
+        logging.info('Using {} as pre-upload directory'.format(upload_dir_pi))
+    else:
+        try:
+            os.makedirs(upload_dir_pi)
+            logging.info('Created {} as pre-upload directory'.format(upload_dir_pi))
+        except OSError:
+            logging.critical('Could not create {} as pre-upload directory'.format(upload_dir_pi))
+            sys.exit()
 
     # Check for / create an upload directory with a specific folder for
     # output from this raspberry pi.
@@ -312,7 +327,7 @@ def record(config_file, logfile_name, log_dir='logs'):
             sys.exit()
 
     # Clean directories
-    clean_dirs(working_dir,upload_dir)
+    clean_dirs(working_dir,upload_dir,pre_upload_dir)
 
     # move any existing logs into the upload folder for this pi
     try:
