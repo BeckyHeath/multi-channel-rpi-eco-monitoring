@@ -27,6 +27,7 @@ class SensorBase(object):
         self.capture_delay = sensors.set_option('capture_delay', config, opts)
 
         # set internal variables and required class variables
+        #TODO add pre_upload into here
         self.current_file = None
         self.working_dir = None
         self.upload_dir = None
@@ -58,6 +59,7 @@ class SensorBase(object):
             working_dir: A working directory to use for file processing
             upload_dir: The directory to write the final data file to for upload.
         """
+        #TODO add in pre_upload_dir here
         self.working_dir = working_dir
         self.upload_dir = upload_dir
         self.current_file = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
