@@ -119,7 +119,7 @@ class Respeaker6Mic(SensorBase):
             # Removed:  >/dev/null 2>&1
             cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
             subprocess.call(cmd.format(s_wfile, ofile), shell=True)
-
+            os.remove(s_wfile)
             time_now = time.strftime('%H-%M-%S')
             logging.info('\n Finished compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
         else:
