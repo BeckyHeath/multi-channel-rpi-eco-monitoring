@@ -102,7 +102,8 @@ class Respeaker6Mic(SensorBase):
         Method to optionally compress raw audio data to FLAC and stage data to
         upload folder
         """
-
+        
+        # Take it to the session working directory
         s_wfile = os.path.join('/home/pi/pre_upload_dir', start_date, wfile)
 
         if self.compress_data == True:
@@ -123,4 +124,4 @@ class Respeaker6Mic(SensorBase):
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
             ofile = os.path.join(self.upload_dir, wfile) + '.wav'
-            os.rename(wfile, ofile)
+            os.rename(s_wfile, ofile)
