@@ -123,7 +123,7 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
         sensor.sleep()
 
 
-def run_postprocess(sensor, upload_dir, sleep=True):
+def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
     """
     Function to handle optional postprocessing seperately to recording
 
@@ -136,16 +136,32 @@ def run_postprocess(sensor, upload_dir, sleep=True):
     pre_upload_dir = '/home/pi/pre_upload_dir'
     start_date = time.strftime('%Y-%m-%d')
     session_pre_upload_dir = os.path.join(pre_upload_dir, start_date)
+
+        # Create the Pre-Upload Directory (For Storing all Finished Recordings)
+    try:
+        if not os.path.exists(session_pre_upload_dir):
+            os.makedirs(session_pre_upload_dir)
+    except OSError:
+        logging.critical('Could not create pre upload directory {}'.format(session_pre_upload_dir))
+        sys.exit()
+
+    files = os.listdir(session_pre_upload_dir)
+
+    if len(files) == 0: 
+        pass 
+    else: 
+        for i in files: 
+            sensor.postprocess(i, upload_dir)
     
-    for i in os.listdir(session_pre_upload_dir):
-        wfile = i
-        #TODO add in config information?
-        sensor.postprocess(wfile, upload_dir)
+            start = time.time()
 
-        # Let the sensor sleep
-    if sleep:
-        sensor.sleep()
 
+        # wait until the next sync interval
+    wait = sync_interval
+    logging.info('Waiting {} to start postprocessing again'.format(wait))
+    time.sleep(wait)
+
+    # TODO add in a wait function
 
 
 def exit_handler(signal, frame):
@@ -257,7 +273,7 @@ def continuous_recording(sensor, working_dir, upload_dir, die):
         record_sensor(sensor, working_dir, upload_dir, sleep=True)
 
 
-def continuous_postprocess(sensor, upload_dir, die):
+def continuous_postprocess(sensor, sync_interval, upload_dir, die):
     """
     Runs a loop over the sensor sampling process
     Args:
@@ -269,7 +285,8 @@ def continuous_postprocess(sensor, upload_dir, die):
 
     # Start recording
     while not die.is_set():
-        run_postprocess(sensor, upload_dir, sleep=True)
+        run_postprocess(sensor, sync_interval, upload_dir, sleep=True)
+        
 
 
 def record(config_file, logfile_name, log_dir='logs'):
@@ -356,10 +373,10 @@ def record(config_file, logfile_name, log_dir='logs'):
     # Check for / create a directory for pre-compression files
     # output from this raspberry pi.
     pre_upload_dir = '/home/pi/pre_upload_dir'
-    upload_dir = os.path.join(pre_upload_dir)
-    upload_dir_pi = os.path.join(pre_upload_dir, 'live_data', cpu_serial)
-    if os.path.exists(upload_dir_pi) and os.path.isdir(upload_dir_pi):
-        logging.info('Using {} as pre-upload directory'.format(upload_dir_pi))
+    pre_upload_dir = os.path.join(pre_upload_dir)
+    pre_upload_dir_pi = os.path.join(pre_upload_dir, 'live_data', cpu_serial)
+    if os.path.exists(pre_upload_dir_pi) and os.path.isdir(pre_upload_dir_pi):
+        logging.info('Using {} as pre-upload directory'.format(pre_upload_dir_pi))
     else:
         try:
             os.makedirs(upload_dir_pi)
@@ -416,7 +433,7 @@ def record(config_file, logfile_name, log_dir='logs'):
 
     
     # Postprocess the raw data in a separate thread
-    postprocess_thread = threading.Thread(target=continuous_postprocess, args=(sensor,
+    postprocess_thread = threading.Thread(target=continuous_postprocess, args=(sensor, sensor.server_sync_interval,
                                                                     upload_dir_pi, die))
 
 
