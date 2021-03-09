@@ -379,10 +379,10 @@ def record(config_file, logfile_name, log_dir='logs'):
         logging.info('Using {} as pre-upload directory'.format(pre_upload_dir_pi))
     else:
         try:
-            os.makedirs(upload_dir_pi)
-            logging.info('Created {} as pre-upload directory'.format(upload_dir_pi))
+            os.makedirs(pre_upload_dir_pi)
+            logging.info('Created {} as pre-upload directory'.format(pre_upload_dir_pi))
         except OSError:
-            logging.critical('Could not create {} as pre-upload directory'.format(upload_dir_pi))
+            logging.critical('Could not create {} as pre-upload directory'.format(pre_upload_dir_pi))
             sys.exit()
 
     # Check for / create an upload directory with a specific folder for
