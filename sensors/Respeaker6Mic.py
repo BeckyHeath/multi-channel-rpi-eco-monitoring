@@ -111,7 +111,7 @@ class Respeaker6Mic(SensorBase):
         if self.compress_data:
 
             # Move File to Pre-Upload Directory
-            ofile = os.path.join(upload_dir, wfile) + '.flac'
+            ofile = os.path.join(upload_dir, start_date, wfile) + '.flac'
             time_now = time.strftime('%H-%M-%S')
             logging.info('\n Starting compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
 
