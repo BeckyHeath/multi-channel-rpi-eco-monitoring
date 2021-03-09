@@ -164,6 +164,8 @@ if not offline_config['offline_mode']:
         config_parse(option, ftp_config)
 
 # Popualte the system config options
+
+#TODO add in the pre-upload dir option here 
 sys_config_options = [
               {'name': 'working_dir',
                'type': str,
