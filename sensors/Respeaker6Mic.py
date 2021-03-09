@@ -32,6 +32,7 @@ class Respeaker6Mic(SensorBase):
         self.current_file = None
         self.working_dir = None
         self.upload_dir = None
+        self.pre_upload_dir = '/home/pi/pre_upload_dir'
         self.server_sync_interval = self.record_length + self.capture_delay
 
     @staticmethod
@@ -104,9 +105,10 @@ class Respeaker6Mic(SensorBase):
         """
         
         # Take it to the session working directory
+        start_date = time.strftime('%Y-%m-%d')
         s_wfile = os.path.join('/home/pi/pre_upload_dir', start_date, wfile)
 
-        if self.compress_data == True:
+        if self.compress_data:
 
             # Move File to Pre-Upload Directory
             ofile = os.path.join(self.upload_dir, wfile) + '.flac'
