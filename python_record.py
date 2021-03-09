@@ -7,8 +7,9 @@ import signal
 import threading
 from datetime import datetime
 import json
-import sensors
 import logging
+import sensors
+
 
 # set a global name for a common logging for functions using this module
 LOG = 'multi-channel-rpi-eco-monitoring'
@@ -54,9 +55,9 @@ def configure_sensor(sensor_config):
     # TODO - not sure of exception classes here?
     try:
         sensor = sensor_class(sensor_config)
-        logging.info('Sensor config succeeded.'.format(sensor_type))
+        logging.info('{} Sensor config succeeded.'.format(sensor_type))
     except ValueError as e:
-        logging.critical('Sensor config failed.'.format(sensor_type))
+        logging.critical('{} Sensor config failed.'.format(sensor_type))
         raise e
 
     # If it passes config, does it pass setup.
@@ -85,6 +86,7 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
     start_date = time.strftime('%Y-%m-%d')
     session_working_dir = os.path.join(working_dir, start_date)
     session_upload_dir = os.path.join(upload_dir, start_date)
+    # TODO pre_upload dir as a config variable
     session_pre_upload_dir = os.path.join('/home/pi/pre_upload_dir', start_date)
 
     try:
@@ -121,24 +123,28 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
         sensor.sleep()
 
 
-def run_postprocess(sensor, upload_dir):
+def run_postprocess(sensor, upload_dir, sleep=True):
     """
-    Function to handle optional postprocessing seperately to recording 
+    Function to handle optional postprocessing seperately to recording
 
-    Args: 
+    Args:
         sensor: A sensor instance
-        upload_dir: The upload directory root to put compressed files in 
+        upload_dir: The upload directory root to put compressed files in
     """
 
-    # Initialise Session Directories
+    # TODO make pre_this a configurable variable
     pre_upload_dir = '/home/pi/pre_upload_dir'
     start_date = time.strftime('%Y-%m-%d')
-    session_pre_upload_dir = os.path.join('/home/pi/pre_upload_dir', start_date)
+    session_pre_upload_dir = os.path.join(pre_upload_dir, start_date)
     
     for i in os.listdir(session_pre_upload_dir):
         wfile = i
-        sensor.postprocess(wfile, session_pre_upload_dir)
+        #TODO add in config information?
+        sensor.postprocess(wfile, upload_dir)
 
+        # Let the sensor sleep
+    if sleep:
+        sensor.sleep()
 
 
 
@@ -206,7 +212,7 @@ def ftp_server_sync(sync_interval, ftp_config, upload_dir, die):
         time.sleep(wait)
 
 
-def clean_dirs(working_dir, upload_dir):
+def clean_dirs(working_dir, upload_dir, pre_upload_dir):
     """
     Function to tidy up the directory structure, any files left in the working
     directory and any directories in upload emptied by FTP mirroring
@@ -224,6 +230,14 @@ def clean_dirs(working_dir, upload_dir):
         if not os.listdir(subdir):
             logging.info('Removing empty upload directory: {}'.format(subdir))
             shutil.rmtree(subdir, ignore_errors=True)
+
+        # Remove empty directories in the upload directory, from bottom up
+    for subdir, dirs, files in os.walk(pre_upload_dir, topdown=False):
+        if not os.listdir(subdir):
+            logging.info('Removing empty pre upload directory: {}'.format(subdir))
+            shutil.rmtree(subdir, ignore_errors=True)
+
+
 
 
 def continuous_recording(sensor, working_dir, upload_dir, die):
@@ -243,7 +257,7 @@ def continuous_recording(sensor, working_dir, upload_dir, die):
         record_sensor(sensor, working_dir, upload_dir, sleep=True)
 
 
-def continuous_postprocess(sensor, working_dir, upload_dir, die):
+def continuous_postprocess(sensor, upload_dir, die):
     """
     Runs a loop over the sensor sampling process
     Args:
@@ -255,11 +269,7 @@ def continuous_postprocess(sensor, working_dir, upload_dir, die):
 
     # Start recording
     while not die.is_set():
-
-        run_postprocess(sensor, working_dir, upload_dir, sleep=True)
-
-
-
+        run_postprocess(sensor, upload_dir, sleep=True)
 
 
 def record(config_file, logfile_name, log_dir='logs'):
@@ -406,8 +416,8 @@ def record(config_file, logfile_name, log_dir='logs'):
 
     
     # Postprocess the raw data in a separate thread
-    postprocess_thread = threading.Thread(target=continuous_postprocess, args=(sensor, working_dir,
-                                                                    upload_dir_pi, die)))
+    postprocess_thread = threading.Thread(target=continuous_postprocess, args=(sensor,
+                                                                    upload_dir_pi, die))
 
 
 
@@ -439,6 +449,7 @@ def record(config_file, logfile_name, log_dir='logs'):
         # wait for them to finish and then exit the program
         die.set()
         record_thread.join()
+        postprocess_thread.join()
         if not offline_mode:
             sync_thread.join()
         
