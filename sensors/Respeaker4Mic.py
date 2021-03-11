@@ -32,6 +32,7 @@ class Respeaker4Mic(SensorBase):
         self.current_file = None
         self.working_dir = None
         self.upload_dir = None
+        self.pre_upload_dir = '/home/pi/pre_upload_dir'
         self.server_sync_interval = self.record_length + self.capture_delay
 
     @staticmethod
@@ -46,7 +47,7 @@ class Respeaker4Mic(SensorBase):
                 {'name': 'compress_data',
                  'type': bool,
                  'default': False,
-                 'prompt': 'Should the audio data be compressed from WAV to VBR mp3? NOTE: only for 1 or 2 channel Audio!'},
+                 'prompt': 'Should the audio data be compressed using FLAC?'},
                 {'name': 'capture_delay',
                  'type': int,
                  'default': 0,
@@ -62,7 +63,7 @@ class Respeaker4Mic(SensorBase):
         except:
             raise EnvironmentError
 
-    def capture_data(self, working_dir, upload_dir):
+    def capture_data(self, working_dir, upload_dir, pre_upload_dir):
         """
         Method to capture raw audio data from the USB Soundcard Mic
 
@@ -74,13 +75,14 @@ class Respeaker4Mic(SensorBase):
         # populate the working and upload directories
         self.working_dir = working_dir
         self.upload_dir = upload_dir
+        self.pre_upload_dir = pre_upload_dir
 
         # Name files by start time and duration
         start_time = time.strftime('%H-%M-%S')
         self.current_file = '{}_dur={}secs'.format(start_time, self.record_length)
 
         # Record for a specific duration
-        logging.info('\n{} - Started recording\n'.format(self.current_file))
+        logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
         wfile = os.path.join(self.working_dir, self.working_file)
         ofile = os.path.join(self.working_dir, self.current_file)
         try:
@@ -93,30 +95,41 @@ class Respeaker4Mic(SensorBase):
             open(ofile + '_ERROR_audio-record-failed', 'a').close()
             time.sleep(1)
 
+        end_time = time.strftime('%H-%M-%S')
         logging.info('\n{} - Finished recording\n'.format(self.current_file))
 
-    def postprocess(self):
+    def postprocess(self, wfile, upload_dir):
         """
-        Method to optionally compress raw audio data to mp3 format and stage data to
+        Method to optionally compress raw audio data to FLAC and stage data to
         upload folder
         """
+        
+        # Take it to the session working directory
+        start_date = time.strftime('%Y-%m-%d')
+        s_wfile = os.path.join('/home/pi/pre_upload_dir', start_date, wfile)
 
-        # current working file
-        wfile = self.uncomp_file
+        if self.compress_data:
 
-        if self.compress_data == True:
-            # This is Commented out as Compression only valid for 1 or 2 channel recordings
+            # Move File to Pre-Upload Directory
+            ofilename = wfile.replace(".wav",".flac")
+            ofile = os.path.join(upload_dir, start_date, ofilename)
+            time_now = time.strftime('%H-%M-%S')
             
-            #Compress the raw audio file to mp3 format
-            ofile = os.path.join(self.upload_dir, self.current_file) + '.mp3'
-
-            logging.info('\n{} - Starting compression\n'.format(self.current_file))
-            cmd = ('ffmpeg -I {} -codec:a libmp3lame -q:a 0 {} >/dev/null 2>&1') 
-            subprocess.call(cmd.format(wfile, ofile), shell=True)
-            logging.info('\n{} - Finished compression\n'.format(self.current_file))
+            # Audio is compressed using a FLAC Encoding            
+            # Removed:  >/dev/null 2>&1
+            try: 
+                logging.info('\n Starting compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
+                cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
+                subprocess.call(cmd.format(s_wfile, ofile), shell=True)
+                os.remove(s_wfile)
+                time_now = time.strftime('%H-%M-%S')
+                logging.info('\n Finished compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
+            except Exception:
+                logging.info('Error compressing {}'. format(wfile))
+            
 
         else:
             # Don't compress, store as wav
-            logging.info('\n{} - No postprocessing of audio data\n'.format(self.current_file))
-            ofile = os.path.join(self.upload_dir, self.current_file) + '.wav'
-            os.rename(wfile, ofile)
+            logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
+            ofile = os.path.join(upload_dir, wfile) + '.wav'
+            os.rename(s_wfile, ofile)
