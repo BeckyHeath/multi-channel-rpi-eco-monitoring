@@ -1,6 +1,6 @@
 # multi-channel-rpi-eco-monitoring
 
-unfinished code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring
+Code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring. The primary differences between Sethi's work and this repo are the installation of a seeed multi-channel soundcard, additional threading of the compression process and of course the inclusion of multi-channel recording. The seeed soundscard requires and older version of raspbian to run and inferferes with default recording devices so this protocol cannot be used without the seeed microphone "HATs"
 
 ## Setup 
 
@@ -54,11 +54,6 @@ The following steps are necessary to finalise installation
 * If your SD card is larger than the size of our pre-prepared image (4GB) run ``sudo raspi-config`` and choose: _Advanced Options_ -> _Expand Filesystem_. Press ``Esc`` when this is complete
 * Type ``sudo halt`` to shut down the Pi
 * Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://www.raspberrypi.org/documentation/installation/installing-images/). Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required
-
-
-### Importing New Sensors 
-
-Importing addional sensors is possible by following protocol explained [here](https://github.com/sarabsethi/rpi-eco-monitoring)
 
 
 ## Authors
