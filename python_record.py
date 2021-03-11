@@ -153,8 +153,6 @@ def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
         for i in files: 
             sensor.postprocess(i, upload_dir)
     
-            start = time.time()
-
 
         # wait until the next sync interval
     wait = sync_interval
