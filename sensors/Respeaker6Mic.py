@@ -128,8 +128,6 @@ class Respeaker6Mic(SensorBase):
                 logging.info('Error compressing {}'. format(wfile))
             
 
-
-
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
