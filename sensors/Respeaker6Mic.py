@@ -82,21 +82,24 @@ class Respeaker6Mic(SensorBase):
         self.current_file = '{}_dur={}secs'.format(start_time, self.record_length)
 
         # Record for a specific duration
-        logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
-        wfile = os.path.join(self.working_dir, self.working_file)
+        wfile = os.path.join(self.working_dir, self.current_file)
         ofile = os.path.join(self.pre_upload_dir, self.current_file)
+        logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
         try:
             cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
             subprocess.call(cmd.format(self.record_length, wfile), shell=True)
-            self.uncomp_file = ofile + '.wav'
-            os.rename(wfile, self.uncomp_file)
+            logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
+            self.uncomp_file_name = ofile + '.wav'
+            os.rename(wfile, self.uncomp_file_name)
+            logging.info('\n{} transferred to {}\n'.format(self.current_file, wfile))
         except Exception:
             logging.info('Error recording from audio card. Creating dummy file')
             open(ofile + '_ERROR_audio-record-failed', 'a').close()
             time.sleep(1)
 
         end_time = time.strftime('%H-%M-%S')
-        logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
+        logging.info('\n{} recording and transfer complete at {}\n'.format(self.current_file, end_time))
+        
 
     def postprocess(self, wfile, upload_dir):
         """
