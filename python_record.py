@@ -123,7 +123,7 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
         sensor.sleep()
 
 
-def run_postprocess(sensor, sync_interval,  upload_dir, sleep=True):
+def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
     """
     Function to handle optional postprocessing seperately to recording
 
@@ -136,8 +136,6 @@ def run_postprocess(sensor, sync_interval,  upload_dir, sleep=True):
     pre_upload_dir = '/home/pi/pre_upload_dir'
     start_date = time.strftime('%Y-%m-%d')
     session_pre_upload_dir = os.path.join(pre_upload_dir, start_date)
-    
-    whole_interval = sync_interval + record_length
 
         # Create the Pre-Upload Directory (For Storing all Finished Recordings)
     try:
@@ -150,25 +148,18 @@ def run_postprocess(sensor, sync_interval,  upload_dir, sleep=True):
     files = os.listdir(session_pre_upload_dir)
 
     if len(files) == 0: 
-        wait_lag = wait + 10
-        logging.info('Waiting {} seconds for file recording to finish'.format(sync_interval))
-        time.sleep(sync_interval)
-        files = os.listdir(session_pre_upload_dir)
-        
-        # If recording has frozen (no new files are being generated) run the kill function
-        if len(files) == 0: 
-            # TODO put in kill function 
-        else: 
-            pass
+        pass 
     else: 
         for i in files: 
             sensor.postprocess(i, upload_dir)
     
 
         # wait until the next sync interval
-    logging.info('Waiting {} to start postprocessing again'.format(sync_interval))
-    time.sleep(sync_interval)
+    wait = sync_interval
+    logging.info('Waiting {} to start postprocessing again'.format(wait))
+    time.sleep(wait)
 
+    # TODO add in a wait function
 
 
 def exit_handler(signal, frame):
