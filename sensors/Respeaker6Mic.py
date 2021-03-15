@@ -88,6 +88,7 @@ class Respeaker6Mic(SensorBase):
         try:
             cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
             subprocess.call(cmd.format(self.record_length, wfile), shell=True)
+            end_time = time.strftime('%H-%M-%S')
             logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
             self.uncomp_file_name = ofile + '.wav'
             os.rename(wfile, self.uncomp_file_name)
