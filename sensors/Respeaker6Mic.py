@@ -135,5 +135,5 @@ class Respeaker6Mic(SensorBase):
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
-            ofile = os.path.join(upload_dir, wfile) 
+            ofile = os.path.join(upload_dir, start_date, wfile)
             os.rename(s_wfile, ofile)
