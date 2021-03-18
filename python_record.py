@@ -147,7 +147,8 @@ def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
 
     # Generate File list (including sub-directories)
     file_list = []
-    for root, directories, files in os.walk(pre_upload_dir, topdown=False):
+    
+    for root, directories, files in os.walk(pre_upload_dir, topdown = False):
 	    for name in files:
             file_list.append(os.path.join('/home/pi/',root, name))
 
