@@ -10,6 +10,7 @@
 test.*
 *.pyc
 *.flac
+.pylintrc
 
 continuous_monitoring_data/
 tmp_data/
