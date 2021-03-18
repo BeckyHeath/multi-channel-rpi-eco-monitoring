@@ -3,6 +3,7 @@ import subprocess
 import os
 import sensors
 import logging
+import sys
 from sensors.SensorBase import SensorBase
 
 class Respeaker6Mic(SensorBase):
@@ -118,13 +119,13 @@ class Respeaker6Mic(SensorBase):
         # Make sure relevant upload dir exists
         session_upload_dir = os.path.join(upload_dir, start_date)
 
-            try:
-                if not os.path.exists(session_upload_dir):
-                    os.makedirs(session_upload_dir)
-            except OSError:
-                logging.critical('Could not create upload directory for '
+        try:
+            if not os.path.exists(session_upload_dir):
+                os.makedirs(session_upload_dir)
+        except OSError:
+            logging.critical('Could not create upload directory for '
                             'recording: {}'.format(session_upload_dir))
-                sys.exit()
+            sys.exit()
 
         # Determine Path for Postprocessed Files: 
         ofile= wfile.replace(pre_upload_dir, upload_dir)
