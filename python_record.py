@@ -149,8 +149,8 @@ def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
     file_list = []
     
     for root, directories, files in os.walk(pre_upload_dir, topdown = False):
-	    for name in files:
-            file_list.append(os.path.join('/home/pi/',root, name)
+        for name in files:
+            file_list.append(os.path.join('/home/pi/',root, name))
 
 
     if len(file_list) == 0: 
@@ -158,7 +158,6 @@ def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
     else: 
         for i in file_list: 
             sensor.postprocess(i, upload_dir)
-    
 
         # wait until the next sync interval
     wait = sync_interval
