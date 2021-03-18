@@ -108,24 +108,40 @@ class Respeaker6Mic(SensorBase):
         upload folder
         """
         
-        # Take it to the session working directory
-        start_date = time.strftime('%Y-%m-%d')
-        s_wfile = os.path.join('/home/pi/pre_upload_dir', start_date, wfile)
+        pre_upload_dir = '/home/pi/pre_upload_dir'
+
+        # Get File Location Infor for correct upload
+        file_path = wfile.split(os.sep)
+        filename = file_path[5]
+        start_date = file_path[4]
+        
+        # Make sure relevant upload dir exists
+        session_upload_dir = os.path.join(upload_dir, start_date)
+
+            try:
+                if not os.path.exists(session_upload_dir):
+                    os.makedirs(session_upload_dir)
+            except OSError:
+                logging.critical('Could not create upload directory for '
+                            'recording: {}'.format(session_upload_dir))
+                sys.exit()
+
+        # Determine Path for Postprocessed Files: 
+        ofile= wfile.replace(pre_upload_dir, upload_dir)
 
         if self.compress_data:
 
-            # Move File to Pre-Upload Directory
-            ofilename = wfile.replace(".wav",".flac")
-            ofile = os.path.join(upload_dir, start_date, ofilename)
+            # Get Filename Ready for Compression
+            ofile = ofile.replace(".wav",".flac")
+            
             time_now = time.strftime('%H-%M-%S')
             
             # Audio is compressed using a FLAC Encoding            
-            # Removed:  >/dev/null 2>&1
             try: 
                 logging.info('\n Starting compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
                 cmd = ('ffmpeg -i {} -c:a flac {} >/dev/null 2>&1') 
-                subprocess.call(cmd.format(s_wfile, ofile), shell=True)
-                os.remove(s_wfile)
+                subprocess.call(cmd.format(wfile, ofile), shell=True)
+                os.remove(wfile)
                 time_now = time.strftime('%H-%M-%S')
                 logging.info('\n Finished compression of {} to {} at {}\n'.format(wfile, ofile, time_now))
             except Exception:
@@ -135,5 +151,4 @@ class Respeaker6Mic(SensorBase):
         else:
             # Don't compress, store as wav
             logging.info('\n{} - No postprocessing of audio data\n'.format(wfile))
-            ofile = os.path.join(upload_dir, start_date, wfile)
-            os.rename(s_wfile, ofile)
+            os.rename(wfile, ofile)

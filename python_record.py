@@ -145,12 +145,17 @@ def run_postprocess(sensor, sync_interval, upload_dir, sleep=True):
         logging.critical('Could not create pre upload directory {}'.format(session_pre_upload_dir))
         sys.exit()
 
-    files = os.listdir(session_pre_upload_dir)
+    # Generate File list (including sub-directories)
+    file_list = []
+    for root, directories, files in os.walk(pre_upload_dir, topdown=False):
+	    for name in files:
+            file_list.append(os.path.join('/home/pi/',root, name)))
 
-    if len(files) == 0: 
+
+    if len(file_list) == 0: 
         pass 
     else: 
-        for i in files: 
+        for i in file_list: 
             sensor.postprocess(i, upload_dir)
     
 
