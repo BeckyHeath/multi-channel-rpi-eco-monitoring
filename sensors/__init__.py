@@ -1,8 +1,6 @@
 # Import individual sensor class files into the sensor module namespace
 # This does need to be edited as classes are added
 from sensors.SensorBase import SensorBase
-from sensors.TimelapseCamera import TimelapseCamera
-from sensors.USBSoundcardMic import USBSoundcardMic
 from sensors.UnixDevice import UnixDevice
 from sensors.Respeaker6Mic import Respeaker6Mic
 from sensors.Respeaker4Mic import Respeaker4Mic
