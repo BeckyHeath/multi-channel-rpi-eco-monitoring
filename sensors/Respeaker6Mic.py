@@ -89,9 +89,15 @@ class Respeaker6Mic(SensorBase):
         try:
             cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
             
-            kill_time = self.record_length*1.1
+            # To remedy unexpected recording faults
+
+            kill_time = self.record_length - 1
             # subprocess.call() will return a number (>0 means there was an error)
-            subprocess.call(cmd.format(self.record_length, wfile), shell=True)
+            try: 
+                subprocess.call(cmd.format(self.record_length, wfile), shell=True, timeout=kill_time)
+            except: 
+                logging.info('\n{} - Timed Out \n'.format(self.current_file))
+                subprocess.run("sudo pkill -9 arecord", shell = True)
             end_time = time.strftime('%H-%M-%S')
             logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))
             self.uncomp_file_name = ofile + '.wav'
