@@ -91,7 +91,7 @@ class Respeaker6Mic(SensorBase):
             
             # To remedy unexpected recording faults
 
-            kill_time = self.record_length - 1
+            kill_time = self.record_length * 1.1
             # subprocess.call() will return a number (>0 means there was an error)
             try: 
                 subprocess.call(cmd.format(self.record_length, wfile), shell=True, timeout=kill_time)
