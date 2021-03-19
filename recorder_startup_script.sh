@@ -34,6 +34,10 @@ while true; do
 	fi
 done
 
+# TODO change this to be done in setup scripts (tempory as device control is currently remote)
+# Install Python3 
+sudo apt-get install python3
+
 # Change to correct folder
 cd /home/pi/multi-channel-rpi-eco-monitoring
 
