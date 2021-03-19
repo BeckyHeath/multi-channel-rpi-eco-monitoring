@@ -88,6 +88,9 @@ class Respeaker6Mic(SensorBase):
         logging.info('\n{} - Started recording at {} \n'.format(self.current_file, start_time))
         try:
             cmd = 'sudo arecord -Dac108 -f S32_LE -r 16000 -c 6 --duration {} {}'
+            
+            kill_time = self.record_length*1.1
+            # subprocess.call() will return a number (>0 means there was an error)
             subprocess.call(cmd.format(self.record_length, wfile), shell=True)
             end_time = time.strftime('%H-%M-%S')
             logging.info('\n{} - Finished recording at {}\n'.format(self.current_file, end_time))

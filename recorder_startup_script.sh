@@ -74,4 +74,4 @@ logfile_name="multi_rpi_eco_"$PI_ID"_"$currentDate".log"
 
 # Start recording script
 printf 'End of startup script\n'
-sudo -E python -u python_record.py $config_file $logfile_name $logdir
+sudo -E python3 -u python_record.py $config_file $logfile_name $logdir
