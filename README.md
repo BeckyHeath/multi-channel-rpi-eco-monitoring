@@ -1,6 +1,6 @@
 # multi-channel-rpi-eco-monitoring
 
-Code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring. The primary differences between Sethi's work and this repo are the installation of a seeed multi-channel soundcard, additional threading of the compression process and of course the inclusion of multi-channel recording. The seeed soundscard requires and older version of raspbian to run and inferferes with default recording devices so this protocol cannot be used without the seeed microphone "HATs"
+Code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring. The primary differences between Sethi's work and this repo are the installation of a seeed multi-channel soundcard, additional steps added to the postprocess thread and of course the inclusion of multi-channel recording. The seeed soundcard requires and older version of raspbian to run and inferferes with default recording devices so this protocol cannot be used without the seeed microphone "HATs"
 
 ## Setup 
 
