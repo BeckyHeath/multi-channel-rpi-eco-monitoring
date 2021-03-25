@@ -33,6 +33,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 ##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
+* Update Python to Python 3 using ``sudo apt-get install python3.8``
 * Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
 * Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup, by adding the following: ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``~/../../etc/profile``. You can do this manually or by running ``sudo nano ../../etc/profile`` from the root directory
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
