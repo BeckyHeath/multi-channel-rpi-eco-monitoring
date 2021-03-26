@@ -110,7 +110,7 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
         if not os.path.exists(session_pre_upload_dir):
             os.makedirs(session_pre_upload_dir)
     except OSError:
-        logging.critical('Could not create upload directory for '
+        logging.critical('Could not create pre-upload directory for '
                          'recording: {}'.format(session_pre_upload_dir))
         sys.exit()
 
@@ -378,6 +378,7 @@ def record(config_file, logfile_name, log_dir='logs'):
     pre_upload_dir = '/home/pi/pre_upload_dir'
     pre_upload_dir = os.path.join(pre_upload_dir)
     pre_upload_dir_pi = os.path.join(pre_upload_dir, 'live_data', cpu_serial)
+    
     if os.path.exists(pre_upload_dir_pi) and os.path.isdir(pre_upload_dir_pi):
         logging.info('Using {} as pre-upload directory'.format(pre_upload_dir_pi))
     else:
