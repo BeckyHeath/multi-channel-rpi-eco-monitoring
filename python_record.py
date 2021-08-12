@@ -112,7 +112,8 @@ def record_sensor(sensor, working_dir, upload_dir, sleep=True):
     except OSError:
         logging.critical('Could not create pre-upload directory for '
                          'recording: {}'.format(session_pre_upload_dir))
-        sys.exit()
+        logging.critical('continuing anyway...')
+        #sys.exit()
 
     # Capture data from the sensor
     logging.info('Capturing data from sensor')
