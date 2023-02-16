@@ -1,16 +1,42 @@
 # multi-channel-rpi-eco-monitoring
 
-Code adapted from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring. The primary differences between Sethi's work and this repo are the installation of a seeed multi-channel soundcard, additional steps added to the postprocess thread, a timeout on the recording function, and of course the inclusion of multi-channel recording. The seeed soundcard requires and older version of raspbian to run and inferferes with default recording devices so this protocol cannot be used without the seeed microphone "HATs". Further the changes made in this repo require the updating of python to python3 so these scripts will not be compatible with the single microphone device setup instructions. 
+Code adapted from Becky Heath's work on multi channel acoustic recording - see: https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring
+Changes here have been made for remote deployment in areas where solar charging is not feasible, and so batteries must be regularly swapped in and out. Similarly, SD cards will need swapping in and out, as these areas will have very limited internet access (no possibility of remote uploading of data). Key changes:
+  1. Added code to safely power down device, once button (on top of 6-mic Respeaker array) is pressed - instead of cutting power to the device
+  2. Added code to check for remaining storage space on SD card, before recording - trying to record past limit causes corruption
+  3. Added code to shut down the device X hours after booting up - dependant on the battery life
+  4. Removed code that attempts to connect to internet / upload to FTP server.
 
 ## Setup 
 
 Pre setup image: 
 
-If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
+If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. This image can be found here: XXX. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. We've found [this version](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) to work fine. (Rasbian Buster, last modified: 13th Feb 2020).
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster...
+
+### Setup overview
+
+• Installing a clean version - with this version of Raspbian: https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/
+
+▪ Use 'Disk Utility' Program on Mac - erase the SD cards content
+▪ Download the Zip file of Raspbian - https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/
+▪ Use Balana Etcher to flash the .img file to the SD card
+▪ USE DEFAULT SETTINGS when booting the Pi (don't change password)
+▪ First, update the pi headers - in a terminal: sudo apt-get install raspberrypi-kernel-headers
+•   Sudo reboot (to ensure the headers are updated properly)
+▪ **When booting up the Pi, enter the command:
+  • sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel
+  • sudo apt-mark showhold  **(To check it worked)
+    • --> These will prevent the kernel from updating, which may break the Seeed Card firmware
+    ○ (As seen in Downgrading Pi Kernel: https://github.com/HinTak/RaspberryPi-Dev/blob/master/Downgrading-Pi-Kernel.md)
+• Follow remaining instructions below (install Seeed Voicecard & clone this github repo)
+  • No need to update python (3.7 is already installed)
+  • When running 'python setup.py'
+    ○ Accept all defaults
+    ○ For FTP server, just write 'test' for everything
 
 #### Pi OS setup: 
 
@@ -34,7 +60,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 
 * Log in and open a terminal
 * Update Python to Python 3 using ``sudo apt-get install python3.8``
-* Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
+* Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
 * Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup, by adding the following: ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``~/../../etc/profile``. You can do this manually or by running ``sudo nano ../../etc/profile`` from the root directory
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
@@ -60,11 +86,11 @@ The following steps are necessary to finalise installation
 ## Authors
 This is a cross disciplinary research project based at Imperial College London, across the Faculties of Engineering, Natural Sciences and Life Sciences.
 
-Work unique to this repo: Becky Heath 
+Work unique to this repo: James Skinner 
 
 All foundation work from the rpi-eco-monitoring repo: Sarab Sethi, Rob Ewers, Nick Jones, David Orme, Lorenzo Picinali
 
-Feel free to [drop me an email](mailto:r.heath18@imperial.ac.uk) with questions 
+Feel free to [drop me an email](mailto:jts19@ic.ac.uk) with questions 
 
 
 ## Citations
