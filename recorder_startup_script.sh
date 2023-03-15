@@ -14,7 +14,7 @@ sudo service udev stop
 sudo service udev start
 
 tries=0
-max_tries=10
+max_tries=5
 while true; do
 	timeout 2s wget -q --spider http://google.com
 	if [ $? -eq 0 ]; then

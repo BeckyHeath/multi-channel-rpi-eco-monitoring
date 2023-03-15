@@ -47,7 +47,7 @@ class Respeaker6Mic(SensorBase):
                  'prompt': 'What is the time in seconds of the audio segments?'},
                 {'name': 'compress_data',
                  'type': bool,
-                 'default': False,
+                 'default': True,
                  'prompt': 'Should the audio data be compressed from WAV to FLAC Lossless Compression?'},
                 {'name': 'capture_delay',
                  'type': int,

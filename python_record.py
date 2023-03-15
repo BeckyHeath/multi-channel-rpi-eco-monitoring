@@ -398,11 +398,11 @@ def record(config_file, logfile_name, log_dir='logs'):
     
     # Schedule a shutdown after X hours, based on battery life...
     # Set the number a couple hours lower than expected (to be safe)
-    estimated_battery_hours = 40
-    minutes = estimated_battery_hours*60
-    logging.info('Scheduling battery life shutdown in {} minutes'.format(minutes))
-    battery_shutdown_cmd = 'sudo shutdown -h +{}'.format(minutes)
-    subprocess.call(battery_shutdown_cmd, shell=True)
+    # estimated_battery_hours = 40
+    # minutes = estimated_battery_hours*60
+    # logging.info('Scheduling battery life shutdown in {} minutes'.format(minutes))
+    # battery_shutdown_cmd = 'sudo shutdown -h +{}'.format(minutes)
+    # subprocess.call(battery_shutdown_cmd, shell=True)
 
     # Check working directory
     if os.path.exists(working_dir) and os.path.isdir(working_dir):
