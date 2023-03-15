@@ -4,8 +4,9 @@ Code adapted from Becky Heath's work on multi channel acoustic recording - see: 
 Changes here have been made for remote deployment in areas where solar charging is not feasible, and so batteries must be regularly swapped in and out. Similarly, SD cards will need swapping in and out, as these areas will have very limited internet access (no possibility of remote uploading of data). Key changes:
   1. Added code to safely power down device, once button (on top of 6-mic Respeaker array) is pressed - instead of cutting power to the device
   2. Added code to check for remaining storage space on SD card, before recording - trying to record past limit causes corruption
-  3. Added code to shut down the device X hours after booting up - dependant on the battery life
-  4. Removed code that attempts to connect to internet / upload to FTP server.
+  3. Added pre-set config.json file, specifically for offline data capture...
+      a. Set to offline mode (won't attempt to connect to internet / FTP upload).
+      b. Set compression to flac (in config.json & Respeaker6Mic.py)
 
 ## Setup 
 
@@ -34,9 +35,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
     ○ (As seen in Downgrading Pi Kernel: https://github.com/HinTak/RaspberryPi-Dev/blob/master/Downgrading-Pi-Kernel.md)
 • Follow remaining instructions below (install Seeed Voicecard & clone this github repo)
   • No need to update python (3.7 is already installed)
-  • When running 'python setup.py'
-    ○ Accept all defaults
-    ○ For FTP server, just write 'test' for everything
+  • **DONT NEED to run setup.py (config file is already available in this repo)
 
 #### Pi OS setup: 
 
