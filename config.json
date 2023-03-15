@@ -1,0 +1,16 @@
+{
+    "sys": {
+        "upload_dir": "/home/pi/multi_channel_monitoring_data", 
+        "working_dir": "/home/pi/tmp_dir", 
+        "reboot_time": "04:00"
+    }, 
+    "ftp": {}, 
+    "sensor": {
+        "capture_delay": 0, 
+        "sensor_type": "Respeaker6Mic", 
+        "record_length": 1200, 
+        "compress_data": true, 
+        "sensor_index": 2
+    }, 
+    "offline_mode": 1
+}
