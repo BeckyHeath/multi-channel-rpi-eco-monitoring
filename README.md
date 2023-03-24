@@ -74,7 +74,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * New terminal
   * ``sudo raspi-config``
   * _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_
-  * Press ``Esc`` when this is complete
+  * Press ``Esc`` when this is complete -> Say No to reboot
   * Shutdown with ``sudo shutdown -h now``
 
 ### Make a new disk image
