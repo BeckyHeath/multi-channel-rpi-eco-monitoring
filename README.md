@@ -22,8 +22,6 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 
 ### Setup overview
 
-  • **DONT NEED to run setup.py (config file is already available in this repo)
-
 #### Pi OS setup: 
 
 * Use a clean SD card - to erase contents of prev SD card, use 'Disk Utility' program on Mac
