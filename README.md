@@ -59,6 +59,11 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Log in and open a terminal
 * Clone this repository into the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
+* If you want to use a different config file (e.g., want to upload to FTP server):
+  * First, delete config.json from multi-channel-rpi-eco-monitoring folder
+  * Open a new terminal
+  * ``cd ~/multi-channel-rpi-eco-monitoring``
+  * Run ``python setup.py`` and follow the prompts. This will create a ``config.json`` file which contains the sensor type, its configuration and the FTP server details.
 * Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup...
   * Open a new terminal
   * ``sudo nano ../../etc/profile`` from the root directory
@@ -69,7 +74,12 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * New terminal
   * ``sudo raspi-config``
   * _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_
-  * Press ``Esc`` when this is complete and reboot with ``sudo reboot``
+  * Press ``Esc`` when this is complete
+  * Shutdown with ``sudo shutdown -h now``
+
+### Make a new disk image
+
+* Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://www.raspberrypi.org/documentation/installation/installing-images/). Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required
 
 ### RPI Configuration
 
@@ -80,12 +90,6 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * 1200 second (20 min) record time intervals
   * No upload to FTP server (fully offline)
 * After reboot, the Pi should be good to go!
-* If you want to use a different config file (e.g., want to upload to FTP server):
-  * First, delete config.json from multi-channel-rpi-eco-monitoring folder
-  * Open a new terminal
-  * ``cd ~/multi-channel-rpi-eco-monitoring``
-  * Run ``python setup.py`` and follow the prompts. This will create a ``config.json`` file which contains the sensor type, its configuration and the FTP server details.
-* Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://www.raspberrypi.org/documentation/installation/installing-images/). Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required
 
 ### Side Notes
 
