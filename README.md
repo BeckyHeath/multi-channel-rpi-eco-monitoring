@@ -75,16 +75,14 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * 1200 second (20 min) record time intervals
   * No upload to FTP server (fully offline)
 * After reboot, the Pi should be good to go!
-
 * If you want to use a different config file (e.g., want to upload to FTP server):
   * First, delete config.json from multi-channel-rpi-eco-monitoring folder
   * Open a new terminal
   * ``cd ~/multi-channel-rpi-eco-monitoring``
   * Run ``python setup.py`` and follow the prompts. This will create a ``config.json`` file which contains the sensor type, its configuration and the FTP server details.
-
 * Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://www.raspberrypi.org/documentation/installation/installing-images/). Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required
 
-### Side Notes
+### Side Notes
 
 * Be careful not to pull the power cable from the Pi (or pull the plug out the socket) - this has been known to corrupt the SD card, and requires a fresh install
 * Using a battery bank is a safe option - if it runs out of power, the Pi tends to shutdown safely
