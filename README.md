@@ -12,42 +12,36 @@ Changes here have been made for remote deployment in areas where solar charging 
 
 ## Setup 
 
-Pre setup image: 
+### Pre setup image: 
 
-If using the image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. This image can be found here: XXX. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
+We have made a new disk image for this fork. If using this image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. This image can be found here: XXX. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster...
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. The following instructions are modified from Becky Heath's Repository...
 
 ### Setup overview
 
-• Installing a clean version - with this version of Raspbian: https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/
-
-▪ Use 'Disk Utility' Program on Mac - erase the SD cards content
-▪ Download the Zip file of Raspbian - https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/
-▪ Use Balana Etcher to flash the .img file to the SD card
-▪ USE DEFAULT SETTINGS when booting the Pi (don't change password)
-▪ First, update the pi headers - in a terminal: sudo apt-get install raspberrypi-kernel-headers
-•   Sudo reboot (to ensure the headers are updated properly)
-▪ **When booting up the Pi, enter the command:
-  • sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel
-  • sudo apt-mark showhold  **(To check it worked)
-    • --> These will prevent the kernel from updating, which may break the Seeed Card firmware
-    ○ (As seen in Downgrading Pi Kernel: https://github.com/HinTak/RaspberryPi-Dev/blob/master/Downgrading-Pi-Kernel.md)
-• Follow remaining instructions below (install Seeed Voicecard & clone this github repo)
-  • No need to update python (3.7 is already installed)
   • **DONT NEED to run setup.py (config file is already available in this repo)
 
 #### Pi OS setup: 
 
+* Use a clean SD card - to erase contents of prev SD card, use 'Disk Utility' program on Mac
 * Download and extract the [recommended OS](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
-* Flash the OS to an SD card, you can use [Balana Etcher](https://www.balena.io/etcher/)
-* Instert SD card into the pi and power on 
-* Set Date and Time 
-* Keep pi login as "raspberry"
+* Flash the OS (.img file) to the SD card - you can use [Balana Etcher](https://www.balena.io/etcher/)
+* Insert SD card into the pi and power on
+* Make sure to use DEFAULT settings (don't change the password - keep as 'raspberry')
+* Set Date and Time
 * **Do not install updates!** Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
-
+* Update only the Pi Headers
+  * Open a new terminal
+  * sudo apt-get install raspberrypi-kernel-headers
+  * sudo reboot (to ensure headers are properly updated)
+* Then, prevent the kernels from further updates (which may break the Seeed Card firmware)...
+  * Open new terminal
+  * sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel
+  * sudo apt-mark showhold  (to check it worked)
+ 
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
 * Open Terminal
@@ -60,29 +54,43 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 ##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
-* Update Python to Python 3 using ``sudo apt-get install python3.8``
-* Clone this repository in the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
-* Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup, by adding the following: ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;`` and ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;`` to the last two lines of ``~/../../etc/profile``. You can do this manually or by running ``sudo nano ../../etc/profile`` from the root directory
+* Clone this repository into the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
+* Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup...
+  * Open a new terminal
+  * ``sudo nano ../../etc/profile`` from the root directory
+  * Add the following 2 lines to the end of the file:
+    * ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;``
+    * ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;``
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
-* Type ``sudo raspi-config`` and configure the Pi to boot to a command line, without login required: _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_. Press ``Esc`` when this is complete and reboot with ``sudo reboot``
-
-* Then follow the instructions below to complete the setup
+* Make sure Pi boots to command line upon login (without login required)...
+  * New terminal
+  * ``sudo raspi-config``
+  * _3 Boot Options_ -> _B1 Desktop / CLI_ -> _B2 Console Autologin_
+  * Press ``Esc`` when this is complete and reboot with ``sudo reboot``
 
 ### RPI Configuration
 
-These steps are adapted from the [Single Channel Eco Monitoring Setup](https://github.com/sarabsethi/rpi-eco-monitoring)
+* Boot the Raspberry Pi with our prepared SD card inserted
+* On first boot, the RasPi should automatically reboot, to expand the file system to max capacity of the SD Card (image is only 8 GB)
+* A config file has already been provided in the image
+  * Uses Respeaker 6 mic array
+  * 1200 second (20 min) record time intervals
+  * No upload to FTP server (fully offline)
+* After reboot, the Pi should be good to go!
 
-The following steps are necessary to finalise installation
+* If you want to use a different config file (e.g., want to upload to FTP server):
+  * First, delete config.json from multi-channel-rpi-eco-monitoring folder
+  * Open a new terminal
+  * ``cd ~/multi-channel-rpi-eco-monitoring``
+  * Run ``python setup.py`` and follow the prompts. This will create a ``config.json`` file which contains the sensor type, its configuration and the FTP server details.
 
-
-* Boot the Raspberry Pi with our prepared SD card inserted. Let the startup script run until it exits with the message "Config file not found!". If you would like to change an existing configuration, press ``Ctrl+C`` when you see "Start of ecosystem monitoring startup script"
-* Type ``cd ~/multi-channel-rpi-eco-monitoring``
-* Run ``python setup.py`` and follow the prompts. This will create a ``config.json`` file which contains the sensor type, its configuration and the FTP server details. The config file can be created manually, or imported from external storage without running ``setup.py`` if preferred
-* Make sure the timezone is set correctly. Check by typing ``sudo dpkg-reconfigure tzdata`` and following the prompts
-* If your SD card is larger than the size of our pre-prepared image (4GB) run ``sudo raspi-config`` and choose: _Advanced Options_ -> _Expand Filesystem_. Press ``Esc`` when this is complete
-* Type ``sudo halt`` to shut down the Pi
 * Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://www.raspberrypi.org/documentation/installation/installing-images/). Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required
 
+### Side Notes
+
+* Be careful not to pull the power cable from the Pi (or pull the plug out the socket) - this has been known to corrupt the SD card, and requires a fresh install
+* Using a battery bank is a safe option - if it runs out of power, the Pi tends to shutdown safely
+* To safely power off, simply press the button on top of the Respeaker 6 Mic array, and wait for the green light (on the Pi) to stop flashing
 
 ## Authors
 This is a cross disciplinary research project based at Imperial College London, across the Faculties of Engineering, Natural Sciences and Life Sciences.
