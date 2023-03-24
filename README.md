@@ -10,6 +10,8 @@ Changes here have been made for remote deployment in areas where solar charging 
 
 NOTE! SD card should have sufficiently fast read/write speed (Class 10, **minimum 150 mb/s**), otherwise you will get overrun errors during recording. This means data won't record properly - you may see dead channels with no data.
 
+This code has been setup to run on a **Raspberry Pi 3B**
+
 ## Setup 
 
 ### Pre setup image: 
