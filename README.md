@@ -51,7 +51,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Install git: ``sudo apt-get install git``
 * Clone Seeed voice card repository into home directory of the Raspberry Pi ``git clone https://github.com/respeaker/seeed-voicecard.git``
 * Switch to Seeed repository ``cd seeed-voicecard``
-* Install the sound card ``sudo ./install.sh`` (you may need to use ``sudo ./install.sh --compat-kernel`` if you run into trouble installing on an incompatible kernel)
+* Install the sound card ``sudo ./install.sh``
 * Reboot the Pi ``sudo reboot``
 
 ##### Set up Multi-Channel Eco Monitoring
