@@ -8,7 +8,7 @@ Changes here have been made for remote deployment in areas where solar charging 
       a. Set to offline mode (won't attempt to connect to internet / FTP upload).
       b. Set compression to flac (in config.json & Respeaker6Mic.py)
 
-**NOTE! SD card should have sufficiently fast read/write speed (Class 10, 150 mb/s), otherwise you will get overrun errors during recording.
+NOTE! SD card should have sufficiently fast read/write speed (Class 10, **minimum 150 mb/s**), otherwise you will get overrun errors during recording.
 
 ## Setup 
 
