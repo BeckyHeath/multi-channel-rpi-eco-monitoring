@@ -39,6 +39,8 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * Open new terminal
   * sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel
   * sudo apt-mark showhold  (to check it worked)
+* Install Python3
+  * sudo apt-get install python3
  
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
