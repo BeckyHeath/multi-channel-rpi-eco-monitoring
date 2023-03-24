@@ -30,19 +30,20 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Download and extract the [recommended OS](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
 * Flash the OS (.img file) to the SD card - you can use [Balana Etcher](https://www.balena.io/etcher/)
 * Insert SD card into the pi and power on
-* Make sure to use DEFAULT settings (don't change the password - keep as 'raspberry')
-* Set Date and Time
-* **Do not install updates!** Make sure you skip this step as updated versions of raspbian are incompatible with the Respeaker sound card
-* Update only the Pi Headers
+* Make sure to use DEFAULT settings (don't change the password - keep as 'raspberry') - just click 'next'
+* Connect to your wifi network
+* **Do not install updates!** Make sure you **skip** this step as updated versions of raspbian are incompatible with the Respeaker sound card
+* Update only the Pi Headers...
   * Open a new terminal
-  * sudo apt-get install raspberrypi-kernel-headers
-  * sudo reboot (to ensure headers are properly updated)
+  * ``sudo apt-get install raspberrypi-kernel-headers``
+  * ``sudo reboot`` (to ensure headers are properly updated)
 * Then, prevent the kernels from further updates (which may break the Seeed Card firmware)...
   * Open new terminal
-  * sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel
-  * sudo apt-mark showhold  (to check it worked)
-* Install Python3
-  * sudo apt-get install python3
+  * ``sudo apt-mark hold raspberrypi-kernel-headers raspberrypi-kernel``
+  * ``sudo apt-mark showhold``  (to check it worked)
+* Check that Python3 is already installed
+  * ``python3`` in terminal --> Should show Python 3.7.3
+  * Otherwise, install Python3 - ``sudo apt-get install python3``
  
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
