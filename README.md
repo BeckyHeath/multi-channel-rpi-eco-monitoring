@@ -58,13 +58,13 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 
 * Log in and open a terminal
 * Clone this repository into the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
+* Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * Make sure all the scripts in the repository are executable, and that ``recorder_startup_script.sh`` runs on startup...
   * Open a new terminal
   * ``sudo nano ../../etc/profile`` from the root directory
   * Add the following 2 lines to the end of the file:
     * ``chmod +x ~/multi-channel-rpi-eco-monitoring/*;``
     * ``sudo -u pi ~/multi-channel-rpi-eco-monitoring/recorder_startup_script.sh;``
-* Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * Make sure Pi boots to command line upon login (without login required)...
   * New terminal
   * ``sudo raspi-config``
