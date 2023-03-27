@@ -44,6 +44,9 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 * Check that Python3 is already installed
   * ``python3`` in terminal --> Should show Python 3.7.3
   * Otherwise, install Python3 - ``sudo apt-get install python3``
+* Install packages to read mounted drives
+  * ``sudo apt-get install exfat-fuse``
+  * ``sudo apt-get install exfat-utils``
  
 #### Install [Seeed Voicard](https://wiki.seeedstudio.com/ReSpeaker_6-Mic_Circular_Array_kit_for_Raspberry_Pi/)
 
