@@ -9,6 +9,7 @@ if [ ! -f fs_expanded ]; then
   sudo reboot
 fi
 
+# Reboot to ensure fast processing after expansion
 if [ ! -f rebooted ]; then
   sudo touch rebooted
   sudo reboot
