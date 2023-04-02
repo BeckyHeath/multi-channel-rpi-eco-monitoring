@@ -9,12 +9,6 @@ if [ ! -f fs_expanded ]; then
   sudo reboot
 fi
 
-# Reboot to ensure fast processing after expansion
-if [ ! -f rebooted ]; then
-  sudo touch rebooted
-  sudo reboot
-fi
-
 # Restart udev to simulate hotplugging of 3G dongle
 sudo service udev stop
 sudo service udev start
