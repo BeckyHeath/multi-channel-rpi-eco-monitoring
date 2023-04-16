@@ -29,11 +29,7 @@ while true; do
 	if [[ $tries -eq $max_tries ]] ;then
 		break
 	fi
-done
-
-# TODO change this to be done in setup scripts (tempory as device control is currently remote)
-# Install Python3 
-sudo apt-get install python3
+done	
 
 # Change to correct folder
 cd /home/pi/multi-channel-rpi-eco-monitoring
@@ -43,18 +39,6 @@ sudo bash ./bash_update_time.sh
 
 # Start ssh-agent so password not required
 eval $(ssh-agent -s)
-
-# Pull latest code from repo
-#last_sha=$(git rev-parse HEAD)
-#git fetch origin
-#branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
-#git reset --hard origin/$branch
-#printf 'Pulled from github\n'
-#now_sha=$(git rev-parse HEAD)
-
-# Check if this file has changed - reboot if so
-#changed_files="$(git diff-tree -r --name-only --no-commit-id $last_sha $now_sha)"
-#echo "$changed_files" | grep --quiet "recorder_startup_script" && sudo reboot
 
 # Add in current date and time to log files
 currentDate=$(date +"%Y-%m-%d_%H.%M")
