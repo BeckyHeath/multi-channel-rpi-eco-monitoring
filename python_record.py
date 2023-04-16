@@ -45,19 +45,6 @@ def safe_shutdown():
     """
     shutdown_cmd = "sudo shutdown -h now"
     subprocess.call(shutdown_cmd, shell=True)
-    
-
-def delete_old_data():
-    """
-    On boot up, remove all the prev data (that should have been retrieved)
-    so we don't run out of SD card storage space.
-    """
-    data_path = '/home/pi/multi_channel_monitoring_data/live_data'
-
-    if os.path.exists(data_path):
-        cmd = 'sudo rm -r ' +  data_path
-        subprocess.call(cmd, shell=True)
-        logging.info('Previous data has been deleted')
 
 
 def configure_sensor(sensor_config):
@@ -546,9 +533,6 @@ if __name__ == "__main__":
     
     GPIO.add_event_detect(array_mic_button, GPIO.FALLING,
                           callback=interrupt_button_callback, bouncetime=100)
-    
-    # Remove previous data
-    delete_old_data()
     
     # run record with three arguements - the path to the config file, the log directory and the log
     record(sys.argv[1], sys.argv[2], sys.argv[3])

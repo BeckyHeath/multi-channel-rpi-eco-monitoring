@@ -13,6 +13,10 @@ fi
 sudo service udev stop
 sudo service udev start
 
+# On boot up, remove all the prev data (that should have been retrieved)
+# so we don't run out of SD card storage space.
+sudo rm -r /home/pi/multi_channel_monitoring_data/live_data
+
 tries=0
 max_tries=5
 while true; do
