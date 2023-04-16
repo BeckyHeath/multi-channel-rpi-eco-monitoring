@@ -52,9 +52,12 @@ def delete_old_data():
     On boot up, remove all the prev data (that should have been retrieved)
     so we don't run out of SD card storage space.
     """
-    cmd = 'sudo rm -r /home/pi/multi_channel_monitoring_data/live_data'
-    subprocess.call(cmd, shell=True)
-    logging.info('Previous data has been deleted')
+    data_path = '/home/pi/multi_channel_monitoring_data/live_data'
+
+    if os.path.exists(data_path):
+        cmd = 'sudo rm -r ' +  data_path
+        subprocess.call(cmd, shell=True)
+        logging.info('Previous data has been deleted')
 
 
 def configure_sensor(sensor_config):
