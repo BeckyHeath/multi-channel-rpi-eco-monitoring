@@ -7,6 +7,7 @@ Changes here have been made for remote deployment in areas where solar charging 
   3. Added pre-set config.json file, specifically for offline data capture...
       a. Set to offline mode (won't attempt to connect to internet / FTP upload).
       b. Set compression to flac (in config.json & Respeaker6Mic.py)
+  4. Old Data is deleted upon boot-up. Make sure that after the battery dies, DiskInternals Linux Reader - https://www.diskinternals.com/linux-reader/ - is used to recover the data.
 
 NOTE! SD card should have sufficiently fast read/write speed (Class 10, **minimum 150 mb/s**), otherwise you will get overrun errors during recording. This means data won't record properly - you may see dead channels with no data.
 
