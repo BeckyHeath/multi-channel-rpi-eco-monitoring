@@ -17,7 +17,7 @@ This code has been setup to run on a **Raspberry Pi 3B**
 
 ### Pre setup image: 
 
-We have made a new disk image for this fork. If using this image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. This image can be found here: XXX. If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
+We have made a new disk image for this fork. If using this image, clone the image to and SD card then skip ahead to the "RPI Configuration" steps below to customise your ecosystem monitoring protocol and finish install. This image can be found [here](https://drive.google.com/file/d/1sTKPgUOcT4SQeJqtF6wdd6rjtqFLZzfR/view?usp=sharing). If you'd like to set the Raspberry Pi up manually follow the manual setup below and *then* the Configuration procedure. 
 
 ### Manual Setup 
 
