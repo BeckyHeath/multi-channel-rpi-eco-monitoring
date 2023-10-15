@@ -1,13 +1,18 @@
 # multi-channel-rpi-eco-monitoring
 
-Code adapted from Becky Heath's work on multi channel acoustic recording - see: https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring
-Changes here have been made for remote deployment in areas where solar charging is not feasible, and so batteries must be regularly swapped in and out. Similarly, SD cards will need swapping in and out, as these areas will have very limited internet access (no possibility of remote uploading of data). Key changes:
-  1. Added code to safely power down device, once button (on top of 6-mic Respeaker array) is pressed - instead of cutting power to the device
-  2. Added code to check for remaining storage space on SD card, before recording - trying to record past limit causes corruption
-  3. Added pre-set config.json file, specifically for offline data capture...
+Code adapted by James Skinner, and Becky Heath from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring.
+
+Key changes include:
+  1. Installation of seeed multi-channel soundcard.
+  2. Additional staging step for postprocessing.
+  3. Added fault removal timeout in recording.
+  4. Sensor adaptation to include multichannel recording.
+  5. Added code to safely power down device, once button (on top of 6-mic Respeaker array) is pressed - instead of cutting power to the device
+  6. Added code to check for remaining storage space on SD card, before recording - trying to record past limit causes corruption
+  7. Added pre-set config.json file, specifically for offline data capture...
       a. Set to offline mode (won't attempt to connect to internet / FTP upload).
       b. Set compression to flac (in config.json & Respeaker6Mic.py)
-  4. Old Data is deleted upon boot-up. Make sure that after the battery dies, DiskInternals Linux Reader - https://www.diskinternals.com/linux-reader/ - is used to recover the data.
+  8. Old Data is deleted upon boot-up. Make sure that after the battery dies, DiskInternals Linux Reader - https://www.diskinternals.com/linux-reader/ - is used to recover the data.
 
 NOTE! SD card should have sufficiently fast read/write speed (Class 10, **minimum 150 mb/s**), otherwise you will get overrun errors during recording. This means data won't record properly - you may see dead channels with no data.
 
@@ -109,15 +114,10 @@ This is a cross disciplinary research project based at Imperial College London, 
 
 Work unique to this repo: James Skinner 
 
-All foundation work from the rpi-eco-monitoring repo: Sarab Sethi, Rob Ewers, Nick Jones, David Orme, Lorenzo Picinali
-
-Feel free to [drop me an email](mailto:jts19@ic.ac.uk) with questions 
+All foundation work from the rpi-eco-monitoring repo: Becky Heath, Sarab Sethi, Rob Ewers, Nick Jones, David Orme, Lorenzo Picinali
 
 
 ## Citations
 Please cite the below papers when referring to this work:
 
 Sethi, SS, Ewers, RM, Jones, NS, Orme, CDL, Picinali, L. Robust, real‐time and autonomous monitoring of ecosystems with an open, low‐cost, networked device. Methods Ecol Evol. 2018; 9: 2383– 2387. https://doi.org/10.1111/2041-210X.13089 
-
-Sethi, SS, Ewers, RM, Jones, NS, Signorelli, A., Picinali, L, Orme, CDL. SAFE Acoustics: an open-source, real-time eco-acoustic monitoring network in the tropical rainforests of Borneo. biorxiv 968867. https://doi.org/10.1101/2020.02.27.968867
-
