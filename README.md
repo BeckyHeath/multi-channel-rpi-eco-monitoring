@@ -1,5 +1,7 @@
 # multi-channel-rpi-eco-monitoring
 
+This is the code designed to run a MAARU (Multichannel Autonomous Acoustic Recording Unit). Full details on applications and hardware setup [here](https:BeckyHeath.github.io/MAARU)
+
 Code adapted by James Skinner, and Becky Heath from Sarab Sethi's work on Autonomous Ecosystem Monitoring. More information on that project and full details at: https://github.com/sarabsethi/rpi-eco-monitoring.
 
 Key changes include:
