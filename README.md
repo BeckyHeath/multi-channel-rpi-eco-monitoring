@@ -26,13 +26,13 @@ We have made a new disk image for this fork. If using this image, clone the imag
 
 ### Manual Setup 
 
-If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster. The following instructions are modified from Becky Heath's Repository...
+If you would rather start using a stock Raspbian image, there's an extra couple of steps before you start the setup process. The seeed soundcard only works on older versions of Raspbian Buster (Rasbian Buster, 13th Feb 2020 works well). 
 
 ### Setup overview
 
 #### Pi OS setup: 
 
-* Use a clean SD card - to erase contents of prev SD card, use 'Disk Utility' program on Mac
+* Use a clean SD card - to erase contents of prev SD card, use 'Disk Utility' program on Mac or you can format the SD card fresh. 
 * Download and extract the [recommended OS](https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2020-02-14/) (the zip file) onto your computer.
 * Flash the OS (.img file) to the SD card - you can use [Balana Etcher](https://www.balena.io/etcher/)
 * Insert SD card into the pi and power on
@@ -66,7 +66,7 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
 ##### Set up Multi-Channel Eco Monitoring
 
 * Log in and open a terminal
-* Clone this repository into the home directory of the Raspberry pi: ``git clone https://github.com/JamesSkinna/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
+* Clone this repository into the home directory of the Raspberry pi: ``git clone https://github.com/BeckyHeath/multi-channel-rpi-eco-monitoring.git`` (see below regarding branches)
 * Install the required packages: ``sudo apt-get -y install fswebcam lftp ffmpeg usb-modeswitch ntpdate zip``
 * If you want to use a different config file (e.g., want to upload to FTP server):
   * First, delete config.json from multi-channel-rpi-eco-monitoring folder
@@ -86,13 +86,6 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * Press ``Esc`` when this is complete -> Say No to reboot
   * Shutdown with ``sudo shutdown -h now``
 
-### Make a new disk image
-
-* Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://howchoo.com/pi/create-a-backup-image-of-your-raspberry-pi-sd-card-in-mac-osx). 
-  * Note: May need to run ``sudo -i`` (before sudo dd...) - this puts the terminal into root mode
-  * Note: After running sudo dd... it may take a while - You get no indication of how far through you are - as long as the no error appears in the terminal, or no new line for code entry, just wait (up to 1 hour for 32 GB SD card)
-* Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required - install on new SD card with Balena Etcher
-
 ### RPI Configuration
 
 * Boot the Raspberry Pi with our prepared SD card inserted
@@ -101,20 +94,31 @@ If you would rather start using a stock Raspbian image, there's an extra couple 
   * Uses Respeaker 6 mic array
   * 1200 second (20 min) record time intervals
   * No upload to FTP server (fully offline)
-* After reboot, the Pi should be good to go!
+**If you would like the Rasberry Pi to run online**...  press ``Ctrl+C`` when you see "Start of ecosystem monitoring startup script".
+  * Type ``cd ~/multi-channel-rpi-eco-monitoring``
+  * Run ``python setup.py`` and follow the prompts. This will create a ``config.json``   file which contains the sensor type, its configuration and the FTP server details. The config file can be created manually, or imported from external storage without running ``setup.py`` if preferred
+  * Make sure the timezone is set correctly. Check by typing ``sudo dpkg-reconfigure tzdata`` and following the prompts
+  * Type ``sudo halt`` to shut down the Pi
+  * After reboot, the Pi should be good to go!
+
+### Make a new disk image
+
+* Take the microSD card from the Pi, and make a copy of it onto your computer [(How?)](https://howchoo.com/pi/create-a-backup-image-of-your-raspberry-pi-sd-card-in-mac-osx). 
+  * Note: May need to run ``sudo -i`` (before sudo dd...) - this puts the terminal into root mode
+  * Note: After running sudo dd... it may take a while - You get no indication of how far through you are - as long as the no error appears in the terminal, or no new line for code entry, just wait (up to 1 hour for 32 GB SD card)
+* Now you can clone as many of these SD cards as you need for your monitoring devices with no extra setup required - install on new SD card with Balena Etcher
+
 
 ### Side Notes
 
-* Be careful not to pull the power cable from the Pi (or pull the plug out the socket) - this has been known to corrupt the SD card, and requires a fresh install
-* Using a battery bank is a safe option - if it runs out of power, the Pi tends to shutdown safely
-* To safely power off, simply press the button on top of the Respeaker 6 Mic array, and wait for the green light (on the Pi) to stop flashing
+* Be careful not to pull the power cable from the Pi (or pull the plug out the socket) - this has been known to corrupt the SD card, and requires a fresh install.
+* Using a battery bank is a safe option - if it runs out of power, the Pi tends to shutdown safely.
+* To safely power off, simply press the button on top of the Respeaker 6 Mic array, and wait for the green light (on the Pi) to stop flashing.
 
 ## Authors
 This is a cross disciplinary research project based at Imperial College London, across the Faculties of Engineering, Natural Sciences and Life Sciences.
 
-Work unique to this repo: James Skinner 
-
-All foundation work from the rpi-eco-monitoring repo: Becky Heath, Sarab Sethi, Rob Ewers, Nick Jones, David Orme, Lorenzo Picinali
+Work on this repo has been contributed by James Skinner, Becky Heath, Sarab Sethi, Rob Ewers, Nick Jones, David Orme, Lorenzo Picinali
 
 
 ## Citations
