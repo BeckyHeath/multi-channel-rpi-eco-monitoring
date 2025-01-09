@@ -126,4 +126,7 @@ Work on this repo has been contributed by James Skinner, Becky Heath, Sarab Seth
 ## Citations
 Please cite the below papers when referring to this work:
 
-Sethi, SS, Ewers, RM, Jones, NS, Orme, CDL, Picinali, L. Robust, real‐time and autonomous monitoring of ecosystems with an open, low‐cost, networked device. Methods Ecol Evol. 2018; 9: 2383– 2387. https://doi.org/10.1111/2041-210X.13089 
+Heath, BE, Suzuki, R, Le Penru, NP, Skinner, J, Orme, CDL, Ewers, RM, Sethi, SS, Picinali, L. Spatial ecosystem monitoring with a Multichannel Acoustic Autonomous Recording Unit (MAARU) [https://doi.org/10.1111/2041-210X.14390](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14390)
+
+
+
